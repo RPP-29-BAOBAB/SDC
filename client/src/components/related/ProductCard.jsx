@@ -47,6 +47,9 @@ class ProductCard extends React.Component {
             });
           })
           .catch(err => {
+            this.setState({
+              product: 'productNotFoundError'
+            });
             console.log(err.stack);
           });
       }
@@ -79,20 +82,14 @@ class ProductCard extends React.Component {
             });
           })
           .catch(err => {
+            this.setState({
+              productImageURL: ''
+            });
             console.log(err.stack);
           });
       }
     }
   }
-
-  // componentDidUpdate() {
-  //   const { productId } = this.props;
-  //   const { product, productImageURL } = this.state;
-
-  //   if (product && productImageURL === '') {
-  //     this.loadImages();
-  //   }
-  // }
 
   componentDidMount() {
     this.loadProductData();
@@ -103,7 +100,16 @@ class ProductCard extends React.Component {
     const { product } = this.state;
 
     if (!product) {
-      return <div className='rp-card rp-card-placeholder' >Loading...</div>;
+      return <div className='rp-card rp-card-placeholder' >Searching...</div>;
+    }
+
+    if (product === 'productNotFoundError') {
+      return (
+        <div className='rp-card rp-card-placeholder' onClick={this.handleActionButtonClick} >
+          <span>{`Product ${this.props.productId} not found`}</span>
+          <span>{'(Click to remove)'}</span>
+        </div>
+      );
     }
 
     console.log(`Rendering ${product.name} product card`);

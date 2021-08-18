@@ -1,54 +1,54 @@
-#review-tile {
+#rr-review-tile {
   padding-top: 5%;
 }
 
-.review {
+.rr-review {
   max-height: 100%;
   max-width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.user-stamp {
+.rr-user-stamp {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.review-rating {
+.rr-review-rating {
   justify-content: flex-start;
 }
 
-.review-date {
+.rr-review-date {
+  padding-right: 0.5em;
   justify-content: flex-end;
 }
 
-.reviewer-name {
+.rr-reviewer-name {
   justify-content: flex-end;
 }
 
-.review-summary{
+.rr-review-summary{
   font-weight:bold;
+  font-size: large;
 }
 
-.review-response {
-  background-color: lightslategrey;
+.rr-review-response {
+  padding: 0.5em;
+  width: fit-content;
+  background-color: #dad6d6;
 }
 
-.tile {
+.rr-review-response.title {
+  font-weight: bold;
+}
+
+.rr-tile {
   padding-top: 2%;
 }
 
-.review-photos {
+.rr-review-photos {
   display: flex;
   justify-content: left;
 }
 
-.photos {
-  padding-right: .5em;
-}
-
-.review-photos img {
-  width: 5em;
-  height: 5em;
- }

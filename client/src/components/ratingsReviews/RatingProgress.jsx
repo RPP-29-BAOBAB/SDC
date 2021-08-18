@@ -4,22 +4,17 @@ import './ratingProgress.css';
 const RatingProgress = (props) => {
   const { completed, ratings, handleRatingProgressFilter } = props;
 
-  const handleClick = () => {
-    console.log('RatingBreakdown Clicked');
-  };
-
   return completed ? (
-    <div id='rating-progress'>
-      <div onClick={handleRatingProgressFilter} id={completed.star}></div>
-      <div class='progress'>
-        <label for='progress-bar label' onClick={handleClick}>{completed.star}</label>
-        <meter class='progress-bar meter' onClick={handleClick} value={isNaN(completed.percentage) ? '' : completed.percentage} min='0' max='100'>{isNaN(completed.percentage) ? '' : completed.percentage}</meter>
-        <label for='progress-bar label' onClick={handleClick}>{completed.count}</label>
-      </div>
+    <div id='rr-rating-progress' className='rr-rating-progress'>
+      {isNaN(completed.percentage) ? '' :
+        <div id='rr-rating-progress-bar' className='rr-rating-progress-bar' onClick={handleRatingProgressFilter} value={completed.star} id={completed.star} >
+          <label id='rr-progress-bar rr-label' for='rr-progress-bar rr-label' onClick={handleRatingProgressFilter} id={completed.star}>{completed.star} stars </label>
+          <meter id='rr-progress-bar rr-meter' className='rr-progress-bar rr-meter' onClick={handleRatingProgressFilter} id={completed.star} value={completed.percentage} min='0' max='100'>{completed.percentage}</meter>
+          <label id='rr-progress-bar rr-label' for='rr-progress-bar rr-label' onClick={handleRatingProgressFilter} id={completed.star}>{completed.count} </label>
+        </div>
+      }
     </div>
-  ) : (
-    <div id='rating-progress'></div>
-  );
+  ) : null;
 };
 
 export default RatingProgress;
