@@ -43,7 +43,7 @@ td {
 
 .qa-more-answer {
   font-weight: bold;
-  color: rgba(29, 29, 28, 0.413);
+  color: rgb(29, 29, 28); 
   user-select: none;
 }
 
