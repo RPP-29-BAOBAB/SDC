@@ -20,6 +20,13 @@ class DisplayPhotos extends React.Component {
     });
   }
 
+  getRatio(url) {
+    var img = new Image();
+    img.onload = function () {
+      console.log(this.width, this.height);
+    };
+  }
+
   render() {
     const photos = this.props.photos;
     if (photos) {
