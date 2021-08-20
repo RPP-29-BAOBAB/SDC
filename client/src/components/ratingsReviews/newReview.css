@@ -3,8 +3,13 @@
   flex-basis: 30%;
 }
 
-#add-review {
+.rr-new-review {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
 
+#rr-add-review {
   font-size: 1em;
   padding: 1em;
   margin: 0.7em, 0.7em, 0.7em, 0em;
@@ -15,5 +20,7 @@
   text-transform: uppercase;
   border: 1px solid black;
 }
+
+
 
 

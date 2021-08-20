@@ -9,30 +9,40 @@ Example: <Report answerId={answerId}/>
 class Report extends React.Component {
   constructor(props) {
     super(props);
+    this.reportFn = this.reportFn.bind(this);
     this.state = {
       clicked: false,
-      link: ''
+      url: ''
     };
   }
 
   componentDidMount() {
     if (this.props.answerId) {
       const answerId = this.props.answerId;
-      const link = '/qa/questions/' + answerId + '/report';
+      const url = `/qa/answers/${answerId}/report`;
       this.setState({
-        link: link
+        url: url
       });
-    } if (this.props.reviewId) {
-      const reviewId = this.props.reviewId;
-      const link = '/reviews/' + reviewId + '/report';
+    } 
+    if (this.props.questionId) {
+      const questionId = this.props.questionId;
+      const url = `/qa/questions/${questionId}/report`;
       this.setState({
-        link: link
+        url: url
+      });
+    } 
+    if (this.props.reviewId) {
+      const reviewId = this.props.reviewId;
+      const url = `/reviews/${reviewId}/report`;
+      this.setState({
+        url: url
       });
     }
   }
 
-  reportFn(link) {
-    axios.put(link)
+  reportFn() {
+    const url = this.state.url;
+    axios.put(this.state.url)
       .then(res => {
         console.log(res);
         this.setState({
@@ -45,7 +55,7 @@ class Report extends React.Component {
     if (!this.state.clicked) {
       return (
         <div class='inline'>
-          <a href='#' onClick={() => this.reportFn(this.state.link)}>Report</a>
+          <a href='#!' className='report-link' onClick={this.reportFn}>Report</a>
         </div>
       );
     } else {

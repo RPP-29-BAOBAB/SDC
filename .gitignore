@@ -6,3 +6,8 @@ __snapshots__
 __archive__
 testResults
 sonar-report.xml
+atelierKeyPair.pem
+login.sh
+
+*.cer
+*.pem

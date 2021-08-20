@@ -1,17 +1,20 @@
 import axios from 'axios';
 import React from 'react';
-import UploadImage from './UploadImage.jsx';
+
+import UploadImage from '../shared/UploadImage';
+
 
 class AddingForm extends React.Component {
   constructor(props) {
     super(props);
-    this.updatePhotoUrl = this.updatePhotoUrl.bind(this);
+
+    this.getImgUrl = this.getImgUrl.bind(this);
     this.state = {
       formName: '',
       username: '',
       email: '',
       text: '',
-      photos: [],
+      imageUrls: [],
       requires: {
         username: '',
         email: '',
@@ -30,6 +33,12 @@ class AddingForm extends React.Component {
         formName: 'Answer'
       });
     }
+  }
+
+  getImgUrl(urls) {
+    this.setState({
+      imageUrls: urls
+    });
   }
 
   handleOnChange(e) {
@@ -83,7 +92,8 @@ class AddingForm extends React.Component {
         body: this.state.text,
         name: this.state.username,
         email: this.state.email,
-        photos: this.state.photos
+
+        photos: this.state.imageUrls
       };
     }
 
@@ -105,9 +115,10 @@ class AddingForm extends React.Component {
           <table>
             <tbody>
               <tr>
-                <td> Username:</td>
+                <td > Username:</td>
                 <td>
                   <input
+                    className='qa-input-username'
                     maxlength='60'
                     placeholder='Example: Jackson11!'
                     id='username'
@@ -118,7 +129,7 @@ class AddingForm extends React.Component {
               </tr>
               <tr>
                 <td></td>
-                <td className='warning_text'>For privacy reasons, do not use your full name or email address</td>
+                <td className='qa-warning-text'>For privacy reasons, do not use your full name or email address</td>
               </tr>
               <tr>
                 <td></td>
@@ -127,32 +138,36 @@ class AddingForm extends React.Component {
 
 
               <tr>
-                <td>Email:</td>
+                <td >Email:</td>
                 <td>
-                  <input maxlength='60'
+                  <input
+                    className='qa-input-email'
+                    maxlength='60'
                     type='email'
-                    placeholder='Why did you like the product or not?'
+                    placeholder='Example: jack@email.com'
                     id='email'
                     value={this.state.email}
                     onChange={this.handleOnChange.bind(this)}>
                   </input>
                 </td>
               </tr>
+
+              <tr>
+                <td></td>
+                <td className='qa-warning-text'>For authentication reasons, you will not be emailed</td>
+              </tr>
               <tr>
                 <td></td>
                 <td style={{ color: 'red' }}>{this.state.requires.email}</td>
               </tr>
-              <tr>
-                <td></td>
-                <td className='warning_text'>For authentication reasons, you will not be emailed</td>
-              </tr>
 
               <tr>
                 <td>{this.state.formName}:</td>
-                <td>
+                <td >
                   <textarea maxlength='1000'
+                    className='qa-text-box'
                     placeholder='Maximum 1000 characters'
-                    className='text_box'
+                    className='qa-text-box'
                     id='text'
                     value={this.state.text}
                     onChange={this.handleOnChange.bind(this)}>
@@ -167,8 +182,10 @@ class AddingForm extends React.Component {
             </tbody>
           </table>
           {this.state.formName === 'Answer' ?
-            <UploadImage updatePhotoUrl={this.updatePhotoUrl}/>
-            : null
+            <UploadImage getImgUrl={this.getImgUrl} />
+            :
+            null
+
           }
           <input type="submit" value="Submit" />
         </form>

@@ -3,38 +3,50 @@ import { shallow, mount } from 'enzyme';
 
 
 import QA from '../../../../../client/src/components/QA/QA.jsx';
+import Question from '../../../../../client/src/components/QA/Question.jsx';
 import QuestionList from '../../../../../client/src/components/QA/QuestionsList.jsx';
-import {questionsData} from './data.js';
+import SearchQuestion from '../../../../../client/src/components/QA/SearchQuestion.jsx';
+import AnswersList from '../../../../../client/src/components/QA/AnswersList.jsx';
+import AddingForm from '../../../../../client/src/components/QA/AddingForm.jsx';
+import {productData, questionsData, answersData} from './data.js';
+import {updateCache, checkCache} from './functions.js';
 
 // ==== Test Template ====
 // ====== index.jsx ======
 // For Jest usage, see: https://jestjs.io/docs/getting-started
 // For Enzyme usage, see: https://github.com/enzymejs/enzyme-matchers/tree/master/packages/jest-enzyme
-const selectProduct = {'id': 28218};
 describe('<QA testing />', () => {
   test('renders QA', () => {
-    const wrapper = shallow(<QA selectedProduct={selectProduct} />); // mount/render/shallow when applicable
+    const wrapper = shallow(<QA updateCache={updateCache} checkCache={checkCache} selectedProduct={{id: productData.product_id}} />); // mount/render/shallow when applicable
     const text = wrapper.find('h3').text();
     expect(text).toBe('QUESTIONS & ANSWERS');
-    const button = wrapper.find('button').length;
-    expect(button).toBe(1);
-
+    expect(wrapper).toMatchSnapshot();
   });
 
-  test('should add 2 questions when click more answered question button', () => {
-    const wrapper = mount(<QuestionList questions={questionsData}/>);
-    expect(wrapper.find('table.question_table')).toHaveLength(2);
-    wrapper.find('button.more_questions').simulate('click');
-    expect(wrapper.find('table.question_table')).toHaveLength(4);
+  test('renders Question List', () => {
+    const wrapper = shallow(<QuestionList questions={questionsData} />);
+    expect(wrapper).toMatchSnapshot();
   });
+
+  test('renders Question', () => {
+    const wrapper = shallow(<Question questions={questionsData} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('renders Search Question', () => {
+    const wrapper = shallow(<SearchQuestion questions={questionsData} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('renders Answers List', () => {
+    const wrapper = shallow(<AnswersList answers={answersData} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('renders Adding form', () => {
+    const wrapper = shallow(<AddingForm productId='36300' />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
 });
 
-describe ('Render questions and answer', () => {
-  test('should render question body', () => {
-    const wrapper = mount(<QuestionList questions={questionsData} />);
-    expect(wrapper.find('.question')).toHaveLength(2);
-    expect(wrapper.find('.question_body').at(0).text()).toBe('question 1');
-  });
-
-  
-});

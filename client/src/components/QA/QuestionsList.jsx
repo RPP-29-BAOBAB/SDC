@@ -1,7 +1,7 @@
 import React from 'react';
 import Question from './Question.jsx';
 import AddingForm from './AddingForm.jsx';
-import MoreQuestionButton from './MoreQuestionButton.jsx';
+import AddButton from '../shared/AddButton.jsx';
 
 
 class QuestionsList extends React.Component {
@@ -52,8 +52,8 @@ class QuestionsList extends React.Component {
   addQuestionForm() {
     if (this.state.addQuestionButton) {
       return (
-        <div className='popup'>
-          <span className='close' onClick={this.addQuestionClicked}>X</span>
+        <div className='qa-popup'>
+          <span id='close-add-question' className='qa-close' onClick={this.addQuestionClicked}>X</span>
           <AddingForm
             productId={this.props.productId}
             closePopup={this.addQuestionClicked}
@@ -71,6 +71,7 @@ class QuestionsList extends React.Component {
   }
 
   render() {
+    const moreQuestionButton = this.state.moreQuestionButton;
     return (
       <div>
         <Question
@@ -78,11 +79,20 @@ class QuestionsList extends React.Component {
           questionsDisplay={this.state.questionsDisplay}
           updateData={this.props.updateData}
         />
-        <MoreQuestionButton
-          status={this.state.moreQuestionButton}
-          moreQuestions={this.moreQuestions}
+        {moreQuestionButton ?
+          <AddButton
+            id={'qa-more-question'}
+            onClick={this.moreQuestions}
+            label={'MORE ANSWERED QUESTIONS'}
+          />
+          :
+          null
+        }
+        <AddButton
+          id={'qa-add-question'}
+          onClick={this.addQuestionClicked}
+          label={'ADD A QUESTION'}
         />
-        <button className='add_question' onClick={this.addQuestionClicked.bind(this)}>ADD A QUESTION +</button>
         {this.addQuestionForm()}
       </div >
 
