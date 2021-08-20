@@ -34,7 +34,7 @@ class DisplayPhotos extends React.Component {
         return (
           <div key={photo + index} className='shared-photos-inline'>
             <img
-              alt='display iamges'
+              alt='display-photo'
               className='shared-thumbnail'
               src={photo.url ? photo.url : photo}
               onClick={this.popupPhoto}>

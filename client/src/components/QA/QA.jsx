@@ -4,12 +4,15 @@ import AddingForm from './AddingForm';
 import QuestionsList from './QuestionsList';
 import SearchQuestions from './SearchQuestion';
 import '../css/QA.css';
+import ClickedTracker from './ClickedTracker';
+import AddButton from '../shared/AddButton';
 
 class QA extends React.Component {
   constructor(props) {
     super(props);
     this.addQuestionClicked = this.addQuestionClicked.bind(this);
     this.updateData = this.updateData.bind(this);
+    this.fetchData = this.fetchData.bind(this);
     this.state = {
       productId: this.props.selectedProduct.id,
       questions: [],
@@ -18,25 +21,21 @@ class QA extends React.Component {
     };
   }
 
-  componentDidMount() {
-    axios.get(`/qa/questions?product_id=${this.state.productId}&count=1000`)
-      .then(res => {
-        this.setState({
-          questions: res.data.results
-        });
-      })
-      .catch(err => {
-        console.log(err);
+  fetchData() {
+    const { updateCache, checkCache, selectedProduct } = this.props;
+    const questionsCache = checkCache('questions', selectedProduct.id);
+    if (questionsCache) {
+      this.setState({
+        questions: questionsCache,
+        productId: selectedProduct.id
       });
-  }
-
-  componentDidUpdate() {
-    if (this.state.productId !== this.props.selectedProduct.id) {
-      axios.get(`/qa/questions?product_id=${this.props.selectedProduct.id}&count=1000`)
+    } else {
+      axios.get(`/qa/questions?product_id=${selectedProduct.id}&count=1000`)
         .then(res => {
+          updateCache('questions', selectedProduct.id, res.data.results);
           this.setState({
             questions: res.data.results,
-            productId: this.props.selectedProduct.id
+            productId: selectedProduct.id
           });
         })
         .catch(err => {
@@ -44,6 +43,18 @@ class QA extends React.Component {
         });
     }
   }
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  componentDidUpdate() {
+    const {selectedProduct} = this.props;
+    if (this.state.productId !== selectedProduct.id) {
+      this.fetchData();
+    }
+  }
+
   updateData() {
     axios.get(`/qa/questions?product_id=${this.props.selectedProduct.id}&count=1000`)
       .then(res => {
@@ -72,7 +83,7 @@ class QA extends React.Component {
     if (this.state.questions.length !== 0) {
       const questions = this.state.questionsFiltered || this.state.questions;
       return (
-        <div id='question-answer'>
+        <div id='question-answer' onClick={ClickedTracker}>
           <h3>QUESTIONS & ANSWERS</h3>
           <SearchQuestions
             questions={questions}
@@ -90,7 +101,11 @@ class QA extends React.Component {
       return (
         <div id='question-answer'>
           <h3>QUESTIONS & ANSWERS</h3>
-          <button className='qa-add-question' onClick={this.addQuestionClicked}>ADD A QUESTION +</button>
+          <AddButton
+            id={'qa-add-question'}
+            onClick={this.addQuestionClicked}
+            label={'ADD A QUESTION'}
+          />
           {this.state.addingForm ?
             <div className='qa-popup'>
               <span className='qa-close' onClick={this.addQuestionClicked} >X</span>
