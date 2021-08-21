@@ -19,7 +19,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [ '@babel/preset-env', '@babel/preset-react' ],
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
       },
@@ -45,17 +45,14 @@ module.exports = {
       }
     }),
     new CompressionPlugin({
-      filename: '[path][base].br',
+      filename: '[base].br',
       algorithm: 'brotliCompress',
       test: /\.(js|css|html|svg)$/,
       compressionOptions: {
-        params: {
-          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-        },
+        level: 11, 
+        threshold: 10240,
+        minRatio: 0.8,
       },
-      threshold: 512,
-      minRatio: 0.8,
-      deleteOriginalAssets: false,
-    }) 
+    })
   ],
 };
