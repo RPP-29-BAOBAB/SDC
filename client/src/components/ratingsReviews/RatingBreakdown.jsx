@@ -4,7 +4,7 @@ import StarRating from '../shared/StarRating.jsx';
 import './ratingBreakdown.css';
 
 const RatingBreakdown = (props) => {
-  const { ratings, recommended, handleRatingProgressFilter, ratingDetails } = props;
+  const { ratings, recommended, handleRatingProgressFilter } = props;
   let key = 0;
 
   if (ratings) {
@@ -48,16 +48,15 @@ const RatingBreakdown = (props) => {
       averageRecommend = Math.round(parseInt(recommended.true) / (parseInt(recommended.false) + parseInt(recommended.true)) * 100);
     }
 
+
     return averageRating ? (
-      <div id='rr-rating-breakdown'>
-        <div className='rr-overall-rating'>
+      <div className='rr-rating-breakdown'>
+        <div className='rr-average-rating'>
           <span id='rr-rating-breakdown rr-average-rating' className='rr-rating-breakdown rr-average-rating'>{isNaN(roundedAverage) ? '' : roundedAverage}</span>
-          <div className='rr-rating-breakdown rr-star-rating'>
-            <StarRating rating={averageRating} max={5} />
-          </div>
+          <StarRating rating={averageRating} max={5} />
         </div>
         <br></br><br></br>
-        <div>{averageRecommend}% of reviews recommend this product</div>
+        <div className='rr-rating-review-percentage'>{averageRecommend}% of reviews recommend this product</div>
         <br></br>
         <h5>RATING BREAKDOWN</h5>
         {barFills.map((item, i) => (
@@ -69,7 +68,7 @@ const RatingBreakdown = (props) => {
     );
   } else {
     return (
-      <div id='rr-rating-breakdown'></div>
+      <div className='rr-rating-breakdown'></div>
     );
   }
 };
