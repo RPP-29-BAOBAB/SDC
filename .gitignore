@@ -11,3 +11,4 @@ login.sh
 
 *.cer
 *.pem
+.rest
