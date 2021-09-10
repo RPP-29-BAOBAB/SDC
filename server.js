@@ -35,17 +35,17 @@ app.get('/multipleProducts', (req, res) => {
 
 app.all('*', (req, res) => (
   api.fwd(req, (err, result) => {
-    console.log('API response:');
+    // console.log('API response:');
     if (err) {
       const error = (err.response ? err.response.data : err) + '\n';
       console.log(error);
       res.sendStatus(500);
     } else {
       if (Array.isArray(result)) {
-        console.log(result.map(result => (JSON.stringify(result))));
+        // console.log(result.map(result => (JSON.stringify(result))));
         res.json(result);
       } else {
-        console.log(result);
+        // console.log(result);
         res.send(result);
       }
     }
